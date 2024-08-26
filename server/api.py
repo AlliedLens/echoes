@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
 import logging
-# from flask_login import LoginManager, UserMixin
 import hashlib
 from flask_cors import CORS
 
@@ -47,21 +46,30 @@ def register():
     username = str(data.get("username"))
     password = str(data.get("password"))
 
-    hashedPassword = hashPassword(password)
+    if (len(username) < 3):
+        return {"value":"username_too_short"}
+    if (len(password) < 3):
+        return {"value":"password_too_short"}
+    
+    if not (username.isalnum() and any(c.isalpha() for c in username) and any(c.isdigit() for c in username)):
+        return {"value": "username_not_mix_of_letters_and_numbers"}
 
+    if not (password.isalnum() and any(c.isalpha() for c in password) and any(c.isdigit() for c in password)):
+        return {"value": "password_not_mix_of_letters_and_numbers"}
+    
+    hashedPassword = hashPassword(password)
     newUser = Users(username=username, password=hashedPassword)
     
     try:
         db.session.add(newUser)
         db.session.commit()
         app.logger.info("User added successfully")
-        return jsonify({'message': 'User registered successfully'}), 201
+        return {'value': 'new_account_success'}
     except Exception as e:
         db.session.rollback()
         app.logger.error(f"Error occurred: {e}")
-        return jsonify({'error': str(e)}), 400
+        return {'value': str(e)}
 
-    return data
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -70,6 +78,8 @@ def login():
     password = data.get("password")
     hashedPassword = hashPassword(password)
     users = Users.query.all()
+
+    userFound = True
     
     for ele in [{'id': user.id, 'username': user.username, 'password':user.password} for user in users]:
         if ele["username"] == username and hashedPassword == ele["password"]:

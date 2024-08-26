@@ -11,10 +11,10 @@ const SignUpScreen = () =>{
     const navigation = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const onRegisterPressed = () => {
         const data = {username: username, password: password};
-        console.log(data);
         fetch("http://localhost:5000/register", {
             method:"POST",
             headers: {
@@ -22,15 +22,31 @@ const SignUpScreen = () =>{
             },
             body: JSON.stringify(data)
         })
-        navigation.navigate("SignIn");
+        .then(
+            response => response.json()
+        ).then(
+            data => {
+                if (data.value == "new_account_success"){
+                    setErrorMessage("")
+                    navigation.navigate("SignIn")
+                }else{
+                    setErrorMessage(data.value)
+                }
+            }
+        )
+    }
+
+    const onBackToSignInPressed = () =>{
+        navigation.navigate("SignIn")
     }
 
     return (
         <SafeAreaView>
             <Text h1>Sign Up</Text>
-            <Input placeholder="New Username" leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setUsername} ></Input>
-            <Input placeholder="New Password" leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setPassword} ></Input>
+            <Input placeholder="New Username" leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setUsername} errorMessage={errorMessage}></Input>
+            <Input placeholder="New Password" leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setPassword} errorMessage={errorMessage}></Input>
             <Button title="Register" onPress={onRegisterPressed}></Button>
+            <Button title="Back To Sign In" onPress={onBackToSignInPressed}></Button>
 
         </SafeAreaView>
 

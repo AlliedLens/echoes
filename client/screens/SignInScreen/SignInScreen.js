@@ -11,6 +11,7 @@ const SignInScreen = () => {
     const navigation = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const onSignUpPressed = () => {
         navigation.navigate("SignUp")
@@ -32,7 +33,7 @@ const SignInScreen = () => {
                 if (data.value == "user_found"){
                     navigation.navigate("HomePage")
                 }else{
-                    alert("user not found")
+                    setErrorMessage(data.value)
                 }
             }
         )
@@ -42,8 +43,8 @@ const SignInScreen = () => {
     return (
         <SafeAreaView>
             <Text h1>Sign In</Text>
-            <Input placeholder='Username' leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setUsername}></Input>
-            <Input placeholder='Password' leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setPassword}></Input>
+            <Input placeholder='Username' leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setUsername} errorMessage={errorMessage}></Input>
+            <Input placeholder='Password' leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setPassword} errorMessage={errorMessage}></Input>
             <Button title="Sign In" onPress={onSignInPressed}/>
             <Button title="Sign Up" onPress={onSignUpPressed}/>
         </SafeAreaView>
