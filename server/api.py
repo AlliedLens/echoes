@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import TIMESTAMP
+import datetime
 import os
 import sqlite3
 import logging
@@ -9,31 +11,89 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.logger.setLevel(logging.INFO)
 CORS(app)
-db = SQLAlchemy()
 
 def hashPassword(password):
    password_bytes = password.encode('utf-8')
    hash_object = hashlib.sha256(password_bytes)
    return hash_object.hexdigest()
 
-
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+db = SQLAlchemy()
+db.init_app(app)
+
+
 class Users(db.Model):
+    __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=True)
 
-db.init_app(app)
+class Contacts(db.Model):
+    __tablename__ = "contact"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    isGroup = db.Column(db.Boolean, unique=False)
+    contactOwner = db.Column(db.String(200), db.ForeignKey("user.username"), unique=False, nullable=False)
+    contactName = db.Column(db.String(200), unique=False,nullable=False)
+    profilePhoto = db.Column(db.String(200), unique=False, nullable=True)
+
+    __table_args__ = (
+        db.UniqueConstraint(contactName, contactOwner),
+    )
+
+class Conversations(db.Model):
+    __tablename__ = "conversation"
+    senderId = db.Column(db.Integer, primary_key=True)
+    receiverId = db.Column(db.Integer, primary_key=True)
+    msg = db.Column(db.String(1000), unique=False, nullable=False)
+    createdAt = db.Column(TIMESTAMP, default=datetime.datetime.utcnow)
+
+class LoggedUser(db.Model):
+    __tablename__ = "logged_user"
+    username = db.Column(db.String(200), unique=True, nullable=False, primary_key=True)
 
 with app.app_context():
     db.create_all()
 
-@app.route('/delete-users-table')
+@app.route('/delete')
 def delete_users_table():
     db.drop_all()
+    db.create_all()
     return {'message': 'Users table deleted'}
+
+@app.route("/add-test-users")
+def add_test_users():
+    a = Contacts(isGroup=False, contactOwner="test1", contactName="dave")
+    b = Contacts(isGroup=False, contactOwner="test1", contactName="ada")
+    c = Contacts(isGroup=True, contactOwner="test1", contactName="new_group")
+    # d = Contacts(isGroup=False, contactOwner="invalid", contactName="dave")
+
+    db.session.add(a)
+    db.session.add(b)
+    db.session.add(c)
+    # db.session.add(d)
+
+    db.session.commit()
+
+    return {'message':"test users added"}
+
+@app.route("/view-contacts/<owner>", methods=["POST", "GET"])
+def find_contacts(owner):
+    contacts = Contacts.query.filter(Contacts.contactOwner==owner).all()
+    contactsList = [
+        
+        {
+            'id' : contact.id,
+            'isGroup' : contact.isGroup,
+            'contactName' : contact.contactName,
+            'contactOwner' : contact.contactOwner,
+            'profilePhoto' : contact.profilePhoto
+        } for contact in contacts
+    ]
+
+    return jsonify(contactsList)
 
 @app.route('/view-users', methods=['GET'])
 def view_users():
@@ -86,3 +146,6 @@ def login():
             return {"value":"user_found"}
         
     return {"value":"user_not_found"}
+
+if __name__ == "__main__":
+    app.run()
