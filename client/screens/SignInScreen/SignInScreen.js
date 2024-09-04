@@ -6,6 +6,8 @@ import { Text} from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react';
 
+export let loggedUser = "";
+
 const SignInScreen = () => {
 
     const navigation = useNavigation();
@@ -31,6 +33,8 @@ const SignInScreen = () => {
             data => {
                 // console.log(data.value);
                 if (data.value == "user_found"){
+                    setUsername(username)
+                    loggedUser = username;
                     navigation.navigate("HomePage")
                 }else{
                     setErrorMessage(data.value)
@@ -38,9 +42,9 @@ const SignInScreen = () => {
             }
         )
         // navigation.navigate("HomePage")
-
+        
     }
-
+    
     
     return (
         <SafeAreaView>

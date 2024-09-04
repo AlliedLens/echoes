@@ -79,11 +79,10 @@ def add_test_users():
 
     return {'message':"test users added"}
 
-@app.route("/view-contacts/<owner>", methods=["POST", "GET"])
-def find_contacts(owner):
+@app.route("/view-contacts-by-owner/<owner>", methods=["POST", "GET"])
+def view_contacts_by_owner(owner):
     contacts = Contacts.query.filter(Contacts.contactOwner==owner).all()
     contactsList = [
-        
         {
             'id' : contact.id,
             'isGroup' : contact.isGroup,

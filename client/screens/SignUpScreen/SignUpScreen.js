@@ -1,7 +1,7 @@
 import { Text} from '@rneui/themed';
 import { Input } from '@rneui/themed'; 
 import { Button } from '@rneui/themed';
-import { SafeAreaView } from 'react-native-web';
+import { SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react';
 
