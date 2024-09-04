@@ -33,9 +33,9 @@ const HomePageScreen = () => {
       <Text>Welcome {loggedUser}</Text>
       <ScrollView>
         {contacts.map((contact, index) => (
-          <ContactWindow key={index} label={contact.contactName} />
+          <ContactWindow label={contact.contactName} imagePath={"/home/davidjijo/dev-tutorials/echoesChat/assets/defaultProfile.jpg"}/>
         ))}
-        <ContactWindow label="Koichi" />
+        <ContactWindow label="Koichi" imagePath={"/home/davidjijo/dev-tutorials/echoesChat/assets/defaultProfile.jpg"}/>
       </ScrollView>
     </View>
   );

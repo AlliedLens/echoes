@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Button, Image } from '@rneui/themed';
+import { Avatar } from '@rneui/themed';
 const ContactWindow = ({ label, imagePath }) => {
   
    return (
     <Button type="outline" style={styles.container}>
         <Image
-          source={require("../../../assets/defaultProfile.jpg")}
+          source={require(imagePath)}
           style={styles.image}
         />
+        {/* <Avatar rounded source ={require("../../../assets/defaultProfile.jpg")}/> */}
         <Text style={styles.label}>{label}</Text>
     </Button>  );
 };
