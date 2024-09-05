@@ -10,7 +10,7 @@ const HomePageScreen = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/view-contacts-by-owner/${loggedUser}`, {
+        const response = await fetch(`http://192.168.23.136:5000/view-contacts-by-owner/${loggedUser}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ const HomePageScreen = () => {
       <Text>Welcome {loggedUser}</Text>
       <ScrollView>
         {contacts.map((contact, index) => (
-          <ContactWindow label={contact.contactName} imagePath={"/home/davidjijo/dev-tutorials/echoesChat/assets/defaultProfile.jpg"}/>
+          <ContactWindow key = {index} label={contact.contactName} imagePath={"/home/davidjijo/dev-tutorials/echoesChat/assets/defaultProfile.jpg"}/>
         ))}
         <ContactWindow label="Koichi" imagePath={"/home/davidjijo/dev-tutorials/echoesChat/assets/defaultProfile.jpg"}/>
       </ScrollView>

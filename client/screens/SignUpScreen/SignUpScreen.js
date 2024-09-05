@@ -15,7 +15,7 @@ const SignUpScreen = () =>{
 
     const onRegisterPressed = () => {
         const data = {username: username, password: password};
-        fetch("http://localhost:5000/register", {
+        fetch("http://192.168.23.136:5000/register", {
             method:"POST",
             headers: {
                 "Content-Type" : "application/json"

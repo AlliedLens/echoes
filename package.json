@@ -29,5 +29,5 @@
     "@babel/core": "^7.20.0"
   },
   "private": true,
-  "proxy": "https://localhost:5000"
+  "proxy": "http://192.168.23.136:5000"
 }

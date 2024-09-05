@@ -7,7 +7,7 @@ const ContactWindow = ({ label, imagePath }) => {
    return (
     <Button type="outline" style={styles.container}>
         <Image
-          source={require(imagePath)}
+          source={require("../../../assets/defaultProfile.jpg")}
           style={styles.image}
         />
         {/* <Avatar rounded source ={require("../../../assets/defaultProfile.jpg")}/> */}

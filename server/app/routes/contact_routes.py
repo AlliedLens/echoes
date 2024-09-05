@@ -4,7 +4,7 @@ from ..db import db
 
 contact_bp = Blueprint('contact', __name__)
 
-@contact_bp.route("/view-contacts-by-owner/<owner>", methods=["GET"])
+@contact_bp.route("/view-contacts-by-owner/<owner>", methods=["GET", "POST"])
 def view_contacts_by_owner(owner):
     contacts = Contacts.query.filter_by(contactOwner=owner).all()
     contactsList = [

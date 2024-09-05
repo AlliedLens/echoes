@@ -21,7 +21,7 @@ const SignInScreen = () => {
 
     const onSignInPressed = () =>{
         const data = {username: username, password: password};
-        fetch("http://localhost:5000/login", {
+        fetch("http://192.168.23.136:5000/login", {
             method: "POST",
             headers: {
                 "Content-type":"application/json"
