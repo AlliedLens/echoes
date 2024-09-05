@@ -21,7 +21,7 @@ const SignInScreen = () => {
 
     const onSignInPressed = () =>{
         const data = {username: username, password: password};
-        fetch("http://192.168.23.136:5000/login", {
+        fetch("http://0.0.0.0:5000/login", {
             method: "POST",
             headers: {
                 "Content-type":"application/json"
@@ -38,10 +38,10 @@ const SignInScreen = () => {
                     navigation.navigate("HomePage")
                 }else{
                     setErrorMessage(data.value)
+                    navigation.navigate("test")
                 }
             }
         )
-        // navigation.navigate("HomePage")
         
     }
     

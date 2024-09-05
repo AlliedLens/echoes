@@ -15,7 +15,7 @@ const SignUpScreen = () =>{
 
     const onRegisterPressed = () => {
         const data = {username: username, password: password};
-        fetch("http://192.168.23.136:5000/register", {
+        fetch("http://0.0.0.0:5000/register", {
             method:"POST",
             headers: {
                 "Content-Type" : "application/json"
@@ -26,6 +26,7 @@ const SignUpScreen = () =>{
             response => response.json()
         ).then(
             data => {
+                console.log(data.value)
                 if (data.value == "new_account_success"){
                     setErrorMessage("")
                     navigation.navigate("SignIn")

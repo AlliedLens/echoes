@@ -10,7 +10,7 @@ const HomePageScreen = () => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch(`http://192.168.23.136:5000/view-contacts-by-owner/${loggedUser}`, {
+        const response = await fetch(`http://0.0.0.0:5000/view-contacts-by-owner/${loggedUser}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -11,6 +11,8 @@ def register():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
+    profilePhotoPath = data.get("profile_photo")
+
     
     if len(username) < 3:
         return {"value": "username_too_short"}
@@ -18,7 +20,7 @@ def register():
         return {"value": "password_too_short"}
 
     hashedPassword = hashPassword(password)
-    newUser = Users(username=username, password=hashedPassword)
+    newUser = Users(username=username, password=hashedPassword, profilePhotoPath=profilePhotoPath)
     
     try:
         db.session.add(newUser)

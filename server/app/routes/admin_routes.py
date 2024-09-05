@@ -10,6 +10,8 @@ def delete_users_table():
     db.create_all()
     return {'message': 'Users table deleted'}
 
+# @admin_bp.route("")
+
 
 @admin_bp.route('/view-users', methods=['GET'])
 def view_users():
