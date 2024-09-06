@@ -36,7 +36,7 @@ const SignUpScreen = () =>{
     };
     
     const onRegisterPressed = () => {
-        const data = {username: username, password: password};
+        const data = {username: username, password: password, profilePhotoPath: image};
         fetch("http://0.0.0.0:5000/register", {
             method:"POST",
             headers: {

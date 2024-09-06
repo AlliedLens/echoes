@@ -12,7 +12,7 @@ def register():
     data = request.get_json()
     username = data.get("username")
     password = data.get("password")
-    profilePhotoPath = data.get("profile_photo")
+    profilePhotoPath = data.get("profilePhotoPath")
 
 
     if profilePhotoPath == "":
@@ -49,7 +49,7 @@ def login():
     return {"value": "user_not_found"}
 
 #used to find user data(particularly profile photo, by username)
-@auth_bp.route("/find-data-by-username/<username>", methods=["POST"])
+@auth_bp.route("/view-by-username/<username>", methods=["POST"])
 def find_data_by_username(username):
     user = Users.query.filter_by(username=username).first()
     if user:
