@@ -16,4 +16,4 @@ def delete_users_table():
 @admin_bp.route('/view-users', methods=['GET'])
 def view_users():
     users = Users.query.all()
-    return jsonify([{'id': user.id, 'username': user.username, 'password': user.password} for user in users])
+    return jsonify([{'id': user.id, 'username': user.username, 'password': user.password, "profilePhotoPath": user.profilePhotoPath} for user in users])

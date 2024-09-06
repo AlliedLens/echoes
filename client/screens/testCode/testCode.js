@@ -17,6 +17,7 @@ const testCode = () => {
 
     if (!result.canceled){
       setImage(result.assets[0].uri);
+
     }
 
   };
