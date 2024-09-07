@@ -14,7 +14,6 @@ def register():
     password = data.get("password")
     profilePhotoPath = data.get("profilePhotoPath")
 
-
     if profilePhotoPath == "":
         return {"value":"upload a profile photo"}
     if len(username) < 3:
@@ -49,7 +48,7 @@ def login():
     return {"value": "user_not_found"}
 
 #used to find user data(particularly profile photo, by username)
-@auth_bp.route("/view-by-username/<username>", methods=["POST"])
+@auth_bp.route("/view-by-username/<username>", methods=["GET"])
 def find_data_by_username(username):
     user = Users.query.filter_by(username=username).first()
     if user:

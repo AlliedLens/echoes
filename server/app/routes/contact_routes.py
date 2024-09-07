@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify
-from ..models import Contacts
+from flask import Blueprint, jsonify, request
+from ..models import Contacts, Users
 from ..db import db
 
 contact_bp = Blueprint('contact', __name__)
 
-@contact_bp.route("/view-contacts-by-owner/<owner>", methods=["GET", "POST"])
+@contact_bp.route("/view-contact-users/<owner>", methods=["GET", "POST"])
 def view_contacts_by_owner(owner):
     contacts = Contacts.query.filter_by(contactOwner=owner).all()
     contactsList = [
@@ -13,10 +13,27 @@ def view_contacts_by_owner(owner):
             'isGroup': contact.isGroup,
             'contactName': contact.contactName,
             'contactOwner': contact.contactOwner,
-            'profilePhoto': contact.profilePhoto
         } for contact in contacts
     ]
-    return jsonify(contactsList)
+
+
+    userList = []
+    for c in contacts:
+        u = Users.query.filter_by(username=c.contactName).all()
+        userList.append(u[0])
+
+    userList = [
+        {
+            "id":user.id,
+            "username":user.username,
+            "password":user.password,
+            "profilePhotoPath":user.profilePhotoPath,
+        } for user in userList
+    ]
+
+    print(userList)
+
+    return jsonify(userList)
 
 @contact_bp.route("/add-test-contacts", methods=["GET"])
 def add_test_contacts():
@@ -27,3 +44,21 @@ def add_test_contacts():
     db.session.add_all([a, b, c])
     db.session.commit()
     return {"message": "Test contacts added"}
+
+@contact_bp.route("/add-contact/<queryName>/<owner>", methods=["POST"])
+def add_contacts(queryName, owner):
+    contactedUser = Users.query.filter_by(username=queryName).first()
+    
+    if not contactedUser:
+        return {"message" : "contact not found"}
+    
+    userAlreadyInContacts = Contacts.query.filter_by(contactName=queryName, contactOwner=owner).first()
+
+    if userAlreadyInContacts:
+        return {"message" : f"contact already exists with {owner}."}
+
+    newContact = Contacts(isGroup = False, contactOwner=owner, contactName=queryName)
+
+    db.session.add(newContact)
+    db.session.commit()
+    return {"message": "contact has been added"}
