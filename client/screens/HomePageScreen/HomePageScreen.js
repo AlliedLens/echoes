@@ -73,8 +73,7 @@ const HomePageScreen = () => {
   console.log(userProfile)
   return (
     <View>
-      <Text h1>Welcome {loggedUser}</Text>
-      <Image   style={{ width: 100, height: 100 }} source={{uri: userProfile}}/> 
+      <Text h1>Welcome {loggedUser} <Avatar  rounded style={{ width: 100, height: 100 }} source={{uri: userProfile}}/> </Text>
       <Overlay isVisible={contactModalVisible} onBackdropPress={ () => setContactModalVisible(false)}>
         <Input placeholder="enter the contact to add" onChangeText={setContactName} errorMessage={errorMessage}/>
         <Button title="Search" onPress={searchPressed} />
