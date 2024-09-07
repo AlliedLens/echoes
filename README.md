@@ -4,8 +4,8 @@ TODO
 immediate TODOs\
 \
 ~Figure out a good way to store and retrieve images through flask~\
-Render Contacts with their profile photo on homepage\
-Create Button to Add Contacts\
+~Render Contacts with their profile photo on homepage~\
+~Create Button to Add Contacts~\
 \
 Open Chat Window Upon Pressing Contact in homepage\
 Create a Chat Component, that shows message, changes color based on who is sending the message\
