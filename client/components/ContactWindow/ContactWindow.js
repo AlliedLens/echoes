@@ -1,37 +1,19 @@
 import React from 'react';
-import { Text, StyleSheet, Image } from 'react-native';
-import { Button, Avatar } from '@rneui/themed';
+import { Text, StyleSheet, Image, View } from 'react-native';
+import { Avatar, Button } from '@rneui/themed';
 
 const ContactWindow = ({ label, imagePath }) => {
   return (
-    <Button type="outline" style={styles.container}>
-      {
-        label === "Koichi" ? (
-          <Avatar
-            rounded
-            ImageComponent={() => (
-              <Image
-                source={require("/home/davidjijo/dev-tutorials/echoesChat/assets/echoesJojo.jpg")}
-                style={styles.avatarImage} 
-              />
-            )}
-            size="medium" 
-          />
-        ) : (
-          <Avatar
-            rounded
-            ImageComponent={() => (
-              <Image
-                source={{ uri: imagePath }}
-                style={styles.avatarImage} 
-              />
-            )}
-            size="medium"
-          />
-        )
-      }
+    <View style={styles.container}>
+      {label === "Koichi" ? (
+        <View style={styles.avatarContainer}>
+          <Image source={require('../../../assets/echoesJojo.jpg')} style={styles.avatarImage} />
+        </View>
+      ) : (
+        <Avatar rounded source={{ uri: imagePath }} size="medium" />
+      )}
       <Text style={styles.label}>{label}</Text>
-    </Button>
+    </View>
   );
 };
 
@@ -40,11 +22,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  avatarContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    overflow: 'hidden', // Ensure the image is cropped properly
+  },
   avatarImage: {
-    width: '100%', 
-    height: '100%', 
-    alignSelf: 'center', 
-    resizeMode: 'cover', 
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   label: {
     fontSize: 16,
