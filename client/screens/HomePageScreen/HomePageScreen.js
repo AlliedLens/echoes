@@ -64,12 +64,12 @@ const HomePageScreen = () => {
         <Button title="Search" onPress={searchPressed} />
       </Overlay>
       
-      <ScrollView>
+      <View>
         {contacts.map((contact, index) => (
           <ContactWindow key = {index} label={contact.username} imagePath={contact.profilePhotoPath}/>
         ))}
-        <ContactWindow label="Koichi" imagePath={"/home/davidjijo/dev-tutorials/echoesChat/assets/defaultProfile.jpg"}/>
-      </ScrollView>
+        <ContactWindow label="Koichi"/>
+      </View>
 
     </View>
   );

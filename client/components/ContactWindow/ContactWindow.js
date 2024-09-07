@@ -1,24 +1,50 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
-import { Button, Image } from '@rneui/themed';
-import { Avatar } from '@rneui/themed';
+import { Text, StyleSheet, Image } from 'react-native';
+import { Button, Avatar } from '@rneui/themed';
+
 const ContactWindow = ({ label, imagePath }) => {
-  
-   return (
+  return (
     <Button type="outline" style={styles.container}>
-        <Avatar rounded source ={{uri:imagePath}}/>
-        <Text style={styles.label}>{label}</Text>
-    </Button>  );
+      {
+        label === "Koichi" ? (
+          <Avatar
+            rounded
+            ImageComponent={() => (
+              <Image
+                source={require("/home/davidjijo/dev-tutorials/echoesChat/assets/echoesJojo.jpg")}
+                style={styles.avatarImage} 
+              />
+            )}
+            size="medium" 
+          />
+        ) : (
+          <Avatar
+            rounded
+            ImageComponent={() => (
+              <Image
+                source={{ uri: imagePath }}
+                style={styles.avatarImage} 
+              />
+            )}
+            size="medium"
+          />
+        )
+      }
+      <Text style={styles.label}>{label}</Text>
+    </Button>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  image: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
+  avatarImage: {
+    width: '100%', 
+    height: '100%', 
+    alignSelf: 'center', 
+    resizeMode: 'cover', 
   },
   label: {
     fontSize: 16,
