@@ -1,8 +1,13 @@
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Pressable } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Image, Text, ListItem, Button, Overlay, Input, Avatar } from '@rneui/themed';
 import ContactWindow from '../../components/ContactWindow/ContactWindow';
 import { useState, useEffect } from 'react';
 import { loggedUser } from '../SignInScreen/SignInScreen';
+import { useNavigation } from '@react-navigation/native'
+
+
+export let chatWithUser = "";
 
 const HomePageScreen = () => {
   const [contacts, setContacts] = useState([]);
@@ -10,6 +15,7 @@ const HomePageScreen = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [contactModalVisible, setContactModalVisible] = useState(false);
   const [contactName, setContactName] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -42,8 +48,6 @@ const HomePageScreen = () => {
     
     };
 
-
-
     fetchContacts();
   }, [contactModalVisible] );
 
@@ -68,31 +72,50 @@ const HomePageScreen = () => {
       }
     )
   }
+  
+  const onContactPressed = (title) => {
+    console.log(title + " is pressed");
+    chatWithUser = title;
+    navigation.navigate("ChatScreen")
+  }
 
-
-  console.log(userProfile)
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Text h1>Welcome {loggedUser} <Avatar  rounded style={{ width: 100, height: 100 }} source={{uri: userProfile}}/> </Text>
+      
       <Overlay isVisible={contactModalVisible} onBackdropPress={ () => setContactModalVisible(false)}>
         <Input placeholder="enter the contact to add" onChangeText={setContactName} errorMessage={errorMessage}/>
         <Button title="Search" onPress={searchPressed} />
       </Overlay>
-      <ListItem bottomDivider key={0}>
-        <ListItem.Content key={0}>
-          <ContactWindow key = {0} label="Koichi"/>
-        </ListItem.Content>
-      </ListItem>
-      {contacts.map((contact, index) => (
-        <ListItem bottomDivider key={index}>
-          <ListItem.Content key={index}>
-            <ContactWindow key = {index} label={contact.username} imagePath={contact.profilePhotoPath}/>
+
+      <Pressable onPress={() => onContactPressed("Koichi")} style={{}}>
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ContactWindow label="Koichi"/>
           </ListItem.Content>
         </ListItem>
+      </Pressable>
+
+      {contacts.map((contact, index) => (
+        <Pressable onPress={() => onContactPressed(contact.username)} key={index}>
+          <ListItem bottomDivider >
+            <ListItem.Content>
+              <ContactWindow label={contact.username} imagePath={contact.profilePhotoPath} />
+            </ListItem.Content>
+          </ListItem>
+        </Pressable>
       ))}
+
       <Button title="Add Contact" onPress={ () => setContactModalVisible(true)}  />
     </View>
   );
 };
+
+
+const styles = StyleSheet.create(
+  {
+
+  }
+)
 
 export default HomePageScreen;
