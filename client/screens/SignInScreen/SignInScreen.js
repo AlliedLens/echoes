@@ -35,12 +35,9 @@ const SignInScreen = () => {
                 if (data.value == "user_found"){
                     setUsername(username)
                     loggedUser = username;
-                    // console.log(username);
                     navigation.navigate("HomePage")
                 }else{
                     setErrorMessage(data.value)
-                    // console.log(username);
-                    navigation.navigate("HomePage")
                 }
             }
         )

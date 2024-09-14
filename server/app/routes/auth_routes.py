@@ -47,19 +47,20 @@ def login():
     
     return {"value": "user_not_found"}, 200
 
-#used to find user data(particularly profile photo, by username)
-@auth_bp.route("/view-by-username/<username>", methods=["GET"])
-def find_data_by_username(username):
+#used to view the data of a specific user
+@auth_bp.route("/view-by-username", methods=["POST"])
+def find_data_by_username():
+    data = request.get_json()
+    username = data.get('user')
+    if not username:
+        return jsonify({"error": "username is required"}), 400
     user = Users.query.filter_by(username=username).first()
     if user:
         return jsonify(
             {
-                "id" : user.id,
-                "username" : user.username,
-                "password" : user.password,
-                "profilePhotoPath" : user.profilePhotoPath 
+                "id": user.id,
+                "username": user.username,
+                "profilePhotoPath": user.profilePhotoPath
             }
         ), 200
-    
     return jsonify({"error": "user not found"}), 404
-

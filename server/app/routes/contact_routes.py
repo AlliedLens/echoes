@@ -4,8 +4,12 @@ from ..db import db
 
 contact_bp = Blueprint('contact', __name__)
 
-def view_contacts_by_owner(owner):
-    contacts = Contacts.query.filter_by(contactOwner=owner).all()
+@contact_bp.route("/view-contact-users", methods=["POST"])
+def view_contacts_by_owner():
+    data = request.get_json()
+    user = data.get("user")
+
+    contacts = Contacts.query.filter_by(contactOwner=user).all()
     if not contacts:
         return jsonify([]), 200
 
@@ -25,30 +29,26 @@ def view_contacts_by_owner(owner):
 
     return jsonify(userList), 200
 
-@contact_bp.route("/add-test-contacts", methods=["GET"])
-def add_test_contacts():
-    a = Contacts(isGroup=False, contactOwner="test1", contactName="dave")
-    b = Contacts(isGroup=False, contactOwner="test1", contactName="ada")
-    c = Contacts(isGroup=True, contactOwner="test1", contactName="new_group")
+@contact_bp.route("/add-contact", methods=["POST"])
+def add_contacts():
+    data = request.get_json()
     
-    db.session.add_all([a, b, c])
-    db.session.commit()
-    return {"message": "Test contacts added"}
+    queryName = data.get('contactName')
+    owner = data.get('loggedUser')
 
-@contact_bp.route("/add-contact/<queryName>/<owner>", methods=["POST"])
-def add_contacts(queryName, owner):
+    if not queryName or not owner:
+        return jsonify({"message": "Both contactName and owner are required"}), 400
+
     contactedUser = Users.query.filter_by(username=queryName).first()
-    
     if not contactedUser:
-        return {"message" : "contact not found"}
+        return jsonify({"message": "Contact not found"}), 404
     
     userAlreadyInContacts = Contacts.query.filter_by(contactName=queryName, contactOwner=owner).first()
-
     if userAlreadyInContacts:
-        return {"message" : f"contact already exists with {owner}."}
+        return jsonify({"message": f"Contact already exists with {owner}"}), 400
 
-    newContact = Contacts(isGroup = False, contactOwner=owner, contactName=queryName)
-
+    newContact = Contacts(isGroup=False, contactOwner=owner, contactName=queryName)
     db.session.add(newContact)
     db.session.commit()
-    return {"message": "contact has been added"}
+
+    return jsonify({"message": "Contact has been added"}), 200

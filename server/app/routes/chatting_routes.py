@@ -8,8 +8,11 @@ chatting_bp = Blueprint("chatting", __name__)
 
 
 #to list out past and present conversations
-@chatting_bp.route("/view-messages-in-chat/<sender>/<receiver>", methods=["GET"])
-def viewMessagesInChat(sender, receiver):
+@chatting_bp.route("/view-messages-in-chat", methods=["POST"])
+def viewMessagesInChat():
+    data = request.get_json()
+    sender = data.get("sender")
+    receiver = data.get("receiver")
     chats = Chats.query.filter(
         or_(
             and_(Chats.sender==sender, Chats.receiver==receiver),
@@ -28,7 +31,7 @@ def viewMessagesInChat(sender, receiver):
     return jsonify(chats)
 
 #to push a new chat
-@chatting_bp.route("/send-message", methods=["POST", "GET"])
+@chatting_bp.route("/send-message", methods=["POST"])
 def sendMessage():
     data = request.get_json()
     sender = data.get('sender')
@@ -42,7 +45,12 @@ def sendMessage():
     return {"message": f"{sender} -> {receiver} : {message}"}
 
 #to delete a particular msg
-@chatting_bp.route("/delete-message/<sender>/<receiver>/<id>", methods=["GET"])
+@chatting_bp.route("/delete-message", methods=["POST"])
 def deleteMessage(sender, receiver, id):
+    data = request.get_json()
+    sender = data.get("sender")
+    receiver = data.get("receiver")
+    id = data.get("id")
+    
     return {"message" : "message deleted"}
 

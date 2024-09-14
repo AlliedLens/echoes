@@ -6,6 +6,7 @@ import { View } from "react-native";
 import { useEffect } from "react";
 import ChatInput from "../../components/ChatInput";
 import MessageWindow from "../../components/MessageWindow";
+import { ngrokServer } from "../../config";
 
 const ChatScreen = () => {
 
@@ -17,35 +18,41 @@ const ChatScreen = () => {
 
     //used to get the profile picture of the user
     useEffect(() => {
-        const fetchContacts = async () => {        
-          try {
-            const response = await fetch(`http://0.0.0.0:5000/view-by-username/${chatWithUser}`, {
-              method: 'GET',
-              headers: {
-                'Content-type': 'application/json',
-              }
-            })
-            const profileData = await response.json()
-            setContactProfile(profileData.profilePhotoPath);
-          } catch(error)  { 
-            console.error("error fetching username", error);
-          }
+      const fetchUserProfile = async () => {
+        try {
+          const data = { user: chatWithUser };
+          const response = await fetch(`${ngrokServer}/view-by-username`, {
+            method: 'POST',  
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),  
+          });
+    
+          const profileData = await response.json();
+    
+          setContactProfile(profileData.profilePhotoPath);
+          
+        } catch (error) {
+          console.error('Error fetching username', error);
         }
-        fetchContacts();
-
-
-    }, []);
-
+      };
+    
+      // Call the async function inside useEffect
+      fetchUserProfile();
+    }, [loggedUser]); 
 
     //used to get the conversation
     useEffect(() =>{
       const fetchMessages = async () => {
         try {
-          const response = await fetch(`http://0.0.0.0:5000/view-messages-in-chat/${chatWithUser}/${loggedUser}`, {
-            method: "GET",
+          const data = {sender : loggedUser, receiver : chatWithUser}
+          const response = await fetch(`${ngrokServer}/view-messages-in-chat`, {
+            method: "POST",
             headers: {
               'Content-type' : 'application/json'
-            }
+            },
+            body : JSON.stringify(data)
           })
           const messageData = await response.json()
           setMessages(messageData)
@@ -56,13 +63,11 @@ const ChatScreen = () => {
       fetchMessages();
     }, [chatsSent])
 
-
-
     const sendMessage = (event) => {
       if (event.key == "Enter"){
         const data = {sender: loggedUser, receiver: chatWithUser, message: message};
         setMessage('');
-        fetch("http://0.0.0.0:5000/send-message", {
+        fetch(`${ngrokServer}/send-message`, {
             method: "POST",
             headers: {
                 "Content-type":"application/json"
