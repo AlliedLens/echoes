@@ -4,7 +4,7 @@ import { Button } from '@rneui/themed';
 import { SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react';
-import { Image } from '@rneui/themed';
+import { Image, Header } from '@rneui/themed';
 import { Avatar } from '@rneui/themed';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -65,7 +65,14 @@ const SignUpScreen = () =>{
 
     return (
         <SafeAreaView>
-            <Text h1>Sign Up</Text>
+            <Header
+                barStyle="default"
+                centerComponent={{
+                text: "Sign Up",
+                style: { color: "#fff" }
+                }}
+                placement="center"
+            />      
             <Input placeholder="New Username" leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setUsername} errorMessage={errorMessage}></Input>
             <Input placeholder="New Password" leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setPassword} errorMessage={errorMessage}></Input>
             <Button title="Upload a Profile" onPress={pickImage}/>

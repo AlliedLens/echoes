@@ -7,6 +7,9 @@ from .routes import register_routes
 
 #used to initialize once app module is imported in api.py
 def create_app():
+    
+    
+    
     app = Flask(__name__)
     app.config.from_object(Config)
     

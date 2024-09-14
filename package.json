@@ -16,19 +16,19 @@
     "@rneui/base": "^4.0.0-rc.7",
     "@rneui/themed": "^4.0.0-rc.8",
     "expo": "~51.0.28",
+    "expo-asset": "~10.0.10",
+    "expo-image-picker": "~15.0.7",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
     "react-native-fs": "^2.20.0",
     "react-native-rename": "^3.2.14",
-    "react-native-web": "~0.19.10",
-    "expo-asset": "~10.0.10",
-    "expo-image-picker": "~15.0.7"
+    "react-native-web": "~0.19.10"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
   "private": true,
-  "proxy": "http://192.168.23.136:5000"
+  "proxy": "https://0.0.0.0:5000"
 }

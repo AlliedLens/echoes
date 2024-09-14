@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@rneui/base';
 import { Input } from '@rneui/themed';
 import {SafeAreaView} from 'react-native';
-import { Text} from '@rneui/themed';
+import { Text, Header} from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react';
 
@@ -14,7 +14,7 @@ const SignInScreen = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
+    
     const onSignUpPressed = () => {
         navigation.navigate("SignUp")
     }
@@ -38,20 +38,25 @@ const SignInScreen = () => {
                     navigation.navigate("HomePage")
                 }else{
                     setErrorMessage(data.value)
-                    navigation.navigate("test")
+                    navigation.navigate("HomePage")
                 }
             }
         )
-        
     }
-    
     
     return (
         <SafeAreaView>
-            <Text h1>Sign In</Text>
+            <Header
+                barStyle="default"
+                centerComponent={{
+                text: "Sign In",
+                style: { color: "#fff" }
+                }}
+                placement="center"
+            />      
             <Input placeholder='Username' leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setUsername} errorMessage={errorMessage}></Input>
-            <Input placeholder='Password' leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setPassword} errorMessage={errorMessage}></Input>
-            <Button title="Sign In" onPress={onSignInPressed}/>
+            <Input placeholder='Password' leftIcon={{ type: 'font-awesome', name: 'chevron-left' }} onChangeText={setPassword} errorMessage={errorMessage} secureTextEntry={true}></Input>
+            <Button title="Login" onPress={onSignInPressed}/>
             <Button title="Sign Up" onPress={onSignUpPressed}/>
         </SafeAreaView>
     );

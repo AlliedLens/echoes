@@ -24,9 +24,10 @@ class Contacts(db.Model):
         db.UniqueConstraint(contactName, contactOwner),
     )
 
-class Conversations(db.Model):
-    __tablename__ = "conversation"
-    senderId = db.Column(db.Integer, primary_key=True)
-    receiverId = db.Column(db.Integer, primary_key=True)
-    msg = db.Column(db.String(1000), unique=False, nullable=False)
-    createdAt = db.Column(TIMESTAMP, default=datetime.datetime.utcnow)
+class Chats(db.Model):
+    __tablename__ = "chat"
+    id = db.Column(db.Integer, primary_key=True)
+    sender = db.Column(db.String(200), db.ForeignKey("user.username"), unique=False, nullable=False)
+    receiver = db.Column(db.String(200), db.ForeignKey("user.username"), unique=False, nullable=False)
+    message = db.Column(db.String(4000), unique=False, nullable=False)
+    createdAt = db.Column(TIMESTAMP, default=db.func.now())

@@ -31,8 +31,6 @@ def view_contacts_by_owner(owner):
         } for user in userList
     ]
 
-    print(userList)
-
     return jsonify(userList)
 
 @contact_bp.route("/add-test-contacts", methods=["GET"])
