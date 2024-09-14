@@ -9,6 +9,7 @@ import { Avatar } from '@rneui/themed';
 import * as ImagePicker from 'expo-image-picker';
 
 import React from 'react';
+import { ngrokServer } from '../../config';
 
 
 
@@ -37,7 +38,7 @@ const SignUpScreen = () =>{
     
     const onRegisterPressed = () => {
         const data = {username: username, password: password, profilePhotoPath: image};
-        fetch("http://0.0.0.0:5000/register", {
+        fetch(`${ngrokServer}/register`, {
             method:"POST",
             headers: {
                 "Content-Type" : "application/json"

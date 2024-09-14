@@ -7,13 +7,12 @@ from .routes import register_routes
 
 #used to initialize once app module is imported in api.py
 def create_app():
-    
-    
+     
     
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    CORS(app)
+    CORS(app, supports_credentials=True, origins=["*", "https://6ddc-45-112-144-95.ngrok-free.app"])
     
     # Initialize extensions
     db.init_app(app)

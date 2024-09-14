@@ -5,6 +5,7 @@ import {SafeAreaView} from 'react-native';
 import { Text, Header} from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react';
+import { ngrokServer } from '../../config';
 
 export let loggedUser = "";
 
@@ -21,7 +22,7 @@ const SignInScreen = () => {
 
     const onSignInPressed = () =>{
         const data = {username: username, password: password};
-        fetch("http://0.0.0.0:5000/login", {
+        fetch(`${ngrokServer}/login`, {
             method: "POST",
             headers: {
                 "Content-type":"application/json"
@@ -31,13 +32,14 @@ const SignInScreen = () => {
         .then(response => response.json())
         .then(
             data => {
-                // console.log(data.value);
                 if (data.value == "user_found"){
                     setUsername(username)
                     loggedUser = username;
+                    // console.log(username);
                     navigation.navigate("HomePage")
                 }else{
                     setErrorMessage(data.value)
+                    // console.log(username);
                     navigation.navigate("HomePage")
                 }
             }

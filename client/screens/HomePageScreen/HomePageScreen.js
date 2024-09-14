@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { loggedUser } from '../SignInScreen/SignInScreen';
 import { useNavigation } from '@react-navigation/native'
 import { TouchableHighlight } from 'react-native';
-
+import { ngrokServer } from '../../config';
 
 export let chatWithUser = "";
 
@@ -18,24 +18,28 @@ const HomePageScreen = () => {
   const [contactName, setContactName] = useState('');
   const navigation = useNavigation();
 
+  console.log(`${loggedUser} is the user...`)
+
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch(`http://0.0.0.0:5000/view-contact-users/${loggedUser}`, {
+        console.log(`${ngrokServer}/view-contact-users/${loggedUser}`);
+        const response = await fetch(`${ngrokServer}/view-contact-users/${loggedUser}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           }
+
         });
         const contactData = await response.json();
-
         setContacts(contactData);
       } catch (error) {
         console.error('Error fetching contacts:', error);
       }
     
       try {
-        const response = await fetch(`http://0.0.0.0:5000/view-by-username/${loggedUser}`, {
+        console.log(`${ngrokServer}/view-by-username/${loggedUser}`)
+        const response = await fetch(`${ngrokServer}/view-by-username/${loggedUser}`, {
           method: 'GET',
           headers: {
             'Content-type': 'application/json',
@@ -46,14 +50,14 @@ const HomePageScreen = () => {
       } catch(error)  { 
         console.error("error fetching username", error);
       }
-    
     };
 
     fetchContacts();
   }, [contactModalVisible] );
 
   const searchPressed = () => {
-    const data = fetch(`http://0.0.0.0:5000//add-contact/${contactName}/${loggedUser}`,
+    console.log(`${ngrokServer}/add-contact/${contactName}/${loggedUser}`)
+    const data = fetch(`${ngrokServer}/add-contact/${contactName}/${loggedUser}`,
       {
         method:"POST",
         headers: {

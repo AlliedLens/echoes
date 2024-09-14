@@ -43,9 +43,9 @@ def login():
     user = Users.query.filter_by(username=username).first()
     
     if user and user.password == hashedPassword:
-        return {"value": "user_found"}
+        return {"value": "user_found"}, 200
     
-    return {"value": "user_not_found"}
+    return {"value": "user_not_found"}, 200
 
 #used to find user data(particularly profile photo, by username)
 @auth_bp.route("/view-by-username/<username>", methods=["GET"])

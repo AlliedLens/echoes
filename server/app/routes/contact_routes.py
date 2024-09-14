@@ -4,34 +4,26 @@ from ..db import db
 
 contact_bp = Blueprint('contact', __name__)
 
-@contact_bp.route("/view-contact-users/<owner>", methods=["GET", "POST"])
 def view_contacts_by_owner(owner):
     contacts = Contacts.query.filter_by(contactOwner=owner).all()
-    contactsList = [
-        {
-            'id': contact.id,
-            'isGroup': contact.isGroup,
-            'contactName': contact.contactName,
-            'contactOwner': contact.contactOwner,
-        } for contact in contacts
-    ]
-
+    if not contacts:
+        return jsonify([]), 200
 
     userList = []
     for c in contacts:
         u = Users.query.filter_by(username=c.contactName).all()
-        userList.append(u[0])
+        if u:
+            userList.append(u[0])
 
     userList = [
         {
-            "id":user.id,
-            "username":user.username,
-            "password":user.password,
-            "profilePhotoPath":user.profilePhotoPath,
-        } for user in userList
+            "id": user.id,
+            "username": user.username,
+            "profilePhotoPath": user.profilePhotoPath,
+        } for user in userList if user
     ]
 
-    return jsonify(userList)
+    return jsonify(userList), 200
 
 @contact_bp.route("/add-test-contacts", methods=["GET"])
 def add_test_contacts():
