@@ -64,19 +64,18 @@ const ChatScreen = () => {
     }, [chatsSent])
 
     const sendMessage = (event) => {
-      if (event.key == "Enter"){
-        const data = {sender: loggedUser, receiver: chatWithUser, message: message};
-        setMessage('');
-        fetch(`${ngrokServer}/send-message`, {
-            method: "POST",
-            headers: {
-                "Content-type":"application/json"
-            },
-            body: JSON.stringify(data)
-        })
+      const data = {sender: loggedUser, receiver: chatWithUser, message: message};
+      console.log("button pressed");
+      setMessage('');
+      fetch(`${ngrokServer}/send-message`, {
+          method: "POST",
+          headers: {
+              "Content-type":"application/json"
+          },
+          body: JSON.stringify(data)
+      })
 
-        setChatsSent(chatsSent+1);
-      }
+      setChatsSent(chatsSent+1);
     }
 
     return (
