@@ -10,11 +10,11 @@ Add a button that allows you to change logged in user's profile photo\
 Create a Hover animation over contact Pressable\
 \
 ~Open Chat Window Upon Pressing Contact in homepage~\
-Create a Chat Component, that shows message, changes color based on who is sending the message\
+~Create a Chat Component, that shows message, changes color based on who is sending the message~\
 ~Create input to send message from~
 ~show Sent and received messages through this window~\
-check if multiple users can use the software at the same time\
-Create a button on the Chat Component that plays the audio of the chat\
+~check if multiple users can use the software at the same time~\
+create a button on the Chat Component that plays the audio of the chat\
 convert text to speech and play the speech on frontend\
 
 Make it so that the app runs on android and IOS\
