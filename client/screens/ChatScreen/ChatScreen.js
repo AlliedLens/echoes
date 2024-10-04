@@ -38,8 +38,6 @@ const ChatScreen = () => {
       }, 100);
 
       return () => clearInterval(interval);
-	};
-  }, [])
 
     fetchUserProfile();
   }, [loggedUser]);
