@@ -1,1 +1,1 @@
-export const ngrokServer = "https://2f35-45-112-144-94.ngrok-free.app"
+export const ngrokServer = "https://9443-2409-4071-4e34-88ec-1ffb-b4da-5fc1-d24a.ngrok-free.app"

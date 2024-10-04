@@ -60,8 +60,14 @@ const ChatScreen = () => {
           console.error('error fetching conversation', error);
         }
       }
+
       fetchMessages();
-    }, [chatsSent])
+      const interval = setInterval(()=>{
+        fetchMessages();
+      }, 100);
+
+      return () => clearInterval(interval);
+    }, [])
 
     const sendMessage = (event) => {
       const data = {sender: loggedUser, receiver: chatWithUser, message: message};
