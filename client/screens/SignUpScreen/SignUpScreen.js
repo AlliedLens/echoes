@@ -134,7 +134,8 @@ const styles = StyleSheet.create({
     button: {
         width: '100%', // Full width for buttons
         backgroundColor: '#2089dc',
-        marginVertical: 10, // Add margin for spacing between buttons
+        marginVertical: 10, // Add margin for spacing between buttons,
+        justifyContent: 'center'
     },
 });
 
