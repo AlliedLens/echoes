@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Header, Avatar, Text } from "@rneui/themed";
+import { Header, Avatar } from "@rneui/themed";
 import { chatWithUser } from "../HomePageScreen/HomePageScreen";
 import { loggedUser } from "../SignInScreen/SignInScreen";
 import { View } from "react-native";
@@ -13,7 +13,7 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [chatsSent, setChatsSent] = useState(0);
 
-  //used to get the profile picture of the user
+  // Fetch the user's profile picture
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -28,21 +28,15 @@ const ChatScreen = () => {
 
         const profileData = await response.json();
         setContactProfile(profileData.profilePhotoPath);
-
       } catch (error) {
         console.error('Error fetching username', error);
       }
-      fetchMessages();
-      const interval = setInterval(()=>{
-        fetchMessages();
-      }, 100);
-
-      return () => clearInterval(interval);
+    };
 
     fetchUserProfile();
-  }, [loggedUser]);
+  }, []);
 
-  //used to get the conversation
+  // Fetch messages
   useEffect(() => {
     const fetchMessages = async () => {
       try {
@@ -57,24 +51,33 @@ const ChatScreen = () => {
         const messageData = await response.json();
         setMessages(messageData);
       } catch (error) {
-        console.error('error fetching conversation', error);
+        console.error('Error fetching conversation', error);
       }
     };
+
     fetchMessages();
+    const interval = setInterval(fetchMessages, 1000); 
+
+    return () => clearInterval(interval); 
   }, [chatsSent]);
 
-  const sendMessage = () => {
-    const data = { sender: loggedUser, receiver: chatWithUser, message: message };
+  // Function to send a message
+  const sendMessage = async () => {
+    const data = { sender: loggedUser, receiver: chatWithUser, message };
     setMessage('');
-    fetch(`${ngrokServer}/send-message`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
-
-    setChatsSent(chatsSent + 1);
+    
+    try {
+      await fetch(`${ngrokServer}/send-message`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+      setChatsSent(prev => prev + 1); // Update chatsSent
+    } catch (error) {
+      console.error('Error sending message', error);
+    }
   };
 
   return (
@@ -94,7 +97,12 @@ const ChatScreen = () => {
         <MessageWindow key={index} value={msg.message} sender={msg.sender} loggedUser={loggedUser} />
       ))}
 
-      <ChatInput message={message} setMessage={setMessage} labelText={`${loggedUser} has to send a message...`} sendMessage={sendMessage} />
+      <ChatInput 
+        message={message} 
+        setMessage={setMessage} 
+        labelText={`${loggedUser} has to send a message...`} 
+        sendMessage={sendMessage} 
+      />
     </View>
   );
 };
