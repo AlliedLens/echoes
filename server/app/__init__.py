@@ -12,7 +12,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    CORS(app, supports_credentials=True, origins=["*", "https://6ddc-45-112-144-95.ngrok-free.app"])
+    CORS(app, supports_credentials=True)
     
     # Initialize extensions
     db.init_app(app)

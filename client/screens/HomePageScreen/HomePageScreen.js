@@ -1,11 +1,9 @@
-import { View, ScrollView, Pressable } from 'react-native';
-import { StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { Image, Text, ListItem, Button, Overlay, Header, Input, Avatar } from '@rneui/themed';
 import ContactWindow from '../../components/ContactWindow/ContactWindow';
-import { useState, useEffect } from 'react';
 import { loggedUser } from '../SignInScreen/SignInScreen';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableHighlight } from 'react-native';
 import { ngrokServer } from '../../config';
 
 export let chatWithUser = "";
@@ -90,46 +88,87 @@ const HomePageScreen = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <Header
         barStyle="default"
         leftComponent={
-          <Avatar rounded source={{uri: userProfile}} style={{width: 50, height: 50}} />
+          <Avatar rounded source={{ uri: userProfile }} />
         }
         centerComponent={{
           text: `Welcome ${loggedUser}`,
-          style: { color: "#fff" }
+          style: styles.headerText
         }}
         placement="center"
+        containerStyle={styles.headerContainer}
       />
-      <Overlay isVisible={contactModalVisible} onBackdropPress={() => setContactModalVisible(false)}>
-        <Input placeholder="enter the contact to add" onChangeText={setContactName} errorMessage={errorMessage} />
-        <Button title="Search" onPress={searchPressed} />
+      
+      <Overlay isVisible={contactModalVisible} onBackdropPress={() => setContactModalVisible(false)} overlayStyle={styles.overlay}>
+        <Input 
+          placeholder="Enter the contact to add" 
+          onChangeText={setContactName} 
+          errorMessage={errorMessage} 
+          containerStyle={styles.inputContainer}
+        />
+        <Button title="Search" onPress={searchPressed} buttonStyle={styles.searchButton} />
       </Overlay>
 
-      <Pressable onPress={() => onContactPressed("Koichi")} style={{}}>
-        <ListItem bottomDivider>
-          <ListItem.Content>
-            <ContactWindow label="Koichi" />
-          </ListItem.Content>
-        </ListItem>
-      </Pressable>
-
-      {contacts.map((contact, index) => (
-        <Pressable onPress={() => onContactPressed(contact.username)} key={index}>
+      <ScrollView>
+        <Pressable onPress={() => onContactPressed("Koichi")} style={styles.contactItem}>
           <ListItem bottomDivider>
             <ListItem.Content>
-              <ContactWindow label={contact.username} imagePath={contact.profilePhotoPath} />
+              <ContactWindow label="Koichi" />
             </ListItem.Content>
           </ListItem>
         </Pressable>
-      ))}
 
-      <Button title="Add Contact" onPress={() => setContactModalVisible(true)} />
+        {contacts.map((contact, index) => (
+          <Pressable onPress={() => onContactPressed(contact.username)} key={index} style={styles.contactItem}>
+            <ListItem bottomDivider>
+              <ListItem.Content>
+                <ContactWindow label={contact.username} imagePath={contact.profilePhotoPath} />
+              </ListItem.Content>
+            </ListItem>
+          </Pressable>
+        ))}
+      </ScrollView>
+
+      <Button title="Add Contact" onPress={() => setContactModalVisible(true)} buttonStyle={styles.addButton} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#f5f5f5',
+  },
+  headerContainer: {
+    backgroundColor: '#2089dc',
+    paddingTop: 10,
+  },
+  headerText: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  overlay: {
+    width: '90%',
+    padding: 20,
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  searchButton: {
+    backgroundColor: '#2089dc',
+  },
+  contactItem: {
+    marginVertical: 5,
+  },
+  addButton: {
+    backgroundColor: '#2089dc',
+    marginTop: 20,
+  },
+});
 
 export default HomePageScreen;
