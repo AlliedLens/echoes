@@ -17,7 +17,7 @@ Create a Hover animation over contact Pressable\
 create a button on the Chat Component that plays the audio of the chat\
 convert text to speech and play the speech on frontend\
 
-Make it so that the app runs on android and IOS\
+~Make it so that the app runs on android and IOS~\
 \
 nice things to have TODOS\
 Ability To Change Themes\
