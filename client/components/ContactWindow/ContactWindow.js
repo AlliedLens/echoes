@@ -8,7 +8,7 @@ const ContactWindow = ({ label, imagePath }) => {
     <View>
       {label === "Koichi" ? (
         <View>
-          <Image source={require('../../../assets/echoesJojo.jpg')} />
+          <Avatar rounded source={require('../../../assets/echoesJojo.jpg')} />
         </View>
       ) : (
         <Avatar rounded source={{ uri: imagePath }} />
