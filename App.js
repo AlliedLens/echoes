@@ -1,6 +1,7 @@
 import {View, StyleSheet} from "react-native";
 import Navigation from "./client/Navigation";
 import { createTheme, useThemeMode, ThemeProvider, makeStyles } from "@rneui/themed";
+import { ScrollView } from "react-native";
 
 const theme = createTheme({
   mode: 'light',
@@ -19,11 +20,9 @@ const theme = createTheme({
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <View style={[styles.box, styles.text]}>
-        <Navigation/>
-      </View>
-    </ThemeProvider>
+    <ScrollView style={[styles.box, styles.text]}>
+      <Navigation/>
+    </ScrollView>
   );
 }
 

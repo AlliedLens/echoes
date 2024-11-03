@@ -32,3 +32,14 @@ def view_all_chats():
         for convo in convos
         ]        
     )
+@admin_bp.route("/RESET", methods=["GET"])
+def reset_db():
+    # Drop all tables
+    db.drop_all()
+    print("All tables dropped.")
+    
+    # Create all tables based on the models
+    db.create_all()
+    print("All tables created.")
+
+    print("Database reset complete.")

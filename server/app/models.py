@@ -31,3 +31,4 @@ class Chats(db.Model):
     receiver = db.Column(db.String(200), db.ForeignKey("user.username"), unique=False, nullable=False)
     message = db.Column(db.String(4000), unique=False, nullable=False)
     createdAt = db.Column(TIMESTAMP, default=db.func.now())
+

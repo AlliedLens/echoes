@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Header, Avatar, Text } from "@rneui/themed";
 import { chatWithUser } from "../HomePageScreen/HomePageScreen";
 import { loggedUser } from "../SignInScreen/SignInScreen";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useEffect } from "react";
 import ChatInput from "../../components/ChatInput";
 import MessageWindow from "../../components/MessageWindow";
@@ -83,8 +83,8 @@ const ChatScreen = () => {
     }
 
     return (
-        <View>
-
+        <ScrollView style={{ flex: 1 }}>
+{/* 
             <Header
                 barStyle="default"
                 centerComponent={{
@@ -103,9 +103,9 @@ const ChatScreen = () => {
 
 
 
-            <ChatInput message={message} setMessage={setMessage} labelText={`${loggedUser} has to send a message...`} sendMessage={sendMessage}/>
-
-        </View>    
+            <ChatInput message={message} setMessage={setMessage} labelText={`${loggedUser} has to send a message...`} sendMessage={sendMessage}/> */}
+            <Text>HelloWorld</Text>
+        </ScrollView>    
     )        
 }
 
