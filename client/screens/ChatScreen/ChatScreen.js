@@ -83,8 +83,8 @@ const ChatScreen = () => {
     }
 
     return (
-        <ScrollView style={{ flex: 1 }}>
-{/* 
+        <View>
+
             <Header
                 barStyle="default"
                 centerComponent={{
@@ -103,9 +103,8 @@ const ChatScreen = () => {
 
 
 
-            <ChatInput message={message} setMessage={setMessage} labelText={`${loggedUser} has to send a message...`} sendMessage={sendMessage}/> */}
-            <Text>HelloWorld</Text>
-        </ScrollView>    
+            <ChatInput message={message} setMessage={setMessage} labelText={`${loggedUser} has to send a message...`} sendMessage={sendMessage}/>
+        </View>    
     )        
 }
 
