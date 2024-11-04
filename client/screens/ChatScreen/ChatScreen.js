@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import ChatInput from "../../components/ChatInput";
 import MessageWindow from "../../components/MessageWindow";
 import { ngrokServer } from "../../config";
+import { Audio } from "expo-av";
+import { Pressable } from "react-native";
 
 const ChatScreen = () => {
 
@@ -14,7 +16,24 @@ const ChatScreen = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const [chatsSent, setChatsSent] = useState(0);
+    const [sound, setSound] = useState(null);
 
+    // Play the audio message
+    const playSound = async (text) => {
+      console.log(text);
+      try {
+        if (sound) {
+          await sound.unloadAsync();
+        }
+        const { sound: newSound } = await Audio.Sound.createAsync(
+          require('./sample-output.mp3')         
+        );
+        setSound(newSound);
+        await newSound.playAsync();
+      } catch (error) {
+        console.error('Error playing sound:', error);
+      }
+    };
 
     //used to get the profile picture of the user
     useEffect(() => {
@@ -98,7 +117,9 @@ const ChatScreen = () => {
             /> 
 
             {messages.map((msg, index) => (
-              <MessageWindow key={index} value={msg.message} sender={msg.sender} loggedUser={loggedUser}/>
+              <Pressable key={index} onPress={ () => playSound(msg.message) }>
+                <MessageWindow value={msg.message} sender={msg.sender} loggedUser={loggedUser}/>
+              </Pressable>
             ))}
 
 

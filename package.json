@@ -17,6 +17,7 @@
     "@rneui/themed": "^4.0.0-rc.8",
     "expo": "~51.0.28",
     "expo-asset": "~10.0.10",
+    "expo-av": "~14.0.7",
     "expo-image-picker": "~15.0.7",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
@@ -24,6 +25,7 @@
     "react-native": "0.74.5",
     "react-native-fs": "^2.20.0",
     "react-native-rename": "^3.2.14",
+    "react-native-sound": "^0.11.2",
     "react-native-web": "~0.19.10"
   },
   "devDependencies": {
