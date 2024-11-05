@@ -38,3 +38,5 @@ server/test_env/*
 server/app/__pycache__/*
 server/app/routes/__pycache__/*
 server/app/utils/__pycache__/*
+
+venv/
