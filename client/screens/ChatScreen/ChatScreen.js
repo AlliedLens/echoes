@@ -17,6 +17,7 @@ const ChatScreen = () => {
     const [messages, setMessages] = useState([]);
     const [chatsSent, setChatsSent] = useState(0);
     const [sound, setSound] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(false); // Track audio playing state
 
     // Play the audio message
     const playSound = async (text) => {
@@ -30,14 +31,12 @@ const ChatScreen = () => {
           body: JSON.stringify({ text: text }),
         });
     
-        // Check if the request was successful
         const data = await response.json();
         if (!response.ok) {
           console.error('Failed to convert text to speech:', data.error);
           return;
         }
     
-        // Unload previous sound if it exists
         if (sound) {
           await sound.unloadAsync();
         }
@@ -45,9 +44,18 @@ const ChatScreen = () => {
         // Load and play the new sound
         const { sound: newSound } = await Audio.Sound.createAsync({ uri: "tts.mp3" });
         setSound(newSound);
+        setIsPlaying(true);
+
         await newSound.playAsync();
+        newSound.setOnPlaybackStatusUpdate((status) => {
+          if (!status.isPlaying) {
+            setIsPlaying(false);
+          }
+        });
+  
       } catch (error) {
         console.error('Error playing sound:', error);
+        setIsPlaying(false);
       }
     };
 
@@ -139,7 +147,18 @@ const ChatScreen = () => {
               </Pressable>
             ))}
 
-
+            {isPlaying && (
+                <View style={{
+                    backgroundColor: 'rgba(0, 150, 255, 0.8)',
+                    padding: 10,
+                    borderRadius: 5,
+                    marginHorizontal: 20,
+                    marginTop: 10,
+                    alignItems: 'center'
+                }}>
+                    <Text style={{ color: 'white', fontSize: 16 }}>🎶 Audio is playing...</Text>
+                </View>
+            )}
 
             <ChatInput message={message} setMessage={setMessage} labelText={`${loggedUser} has to send a message...`} sendMessage={sendMessage}/>
         </View>    
