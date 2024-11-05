@@ -18,8 +18,6 @@ const HomePageScreen = () => {
   const [contactName, setContactName] = useState('');
   const navigation = useNavigation();
 
-  console.log(`${loggedUser} is the user...`);
-
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -97,14 +95,14 @@ const HomePageScreen = () => {
           <Avatar rounded source={{uri: userProfile}} style={{width: 50, height: 50}} />
         }
         centerComponent={{
-          text: `Welcome ${loggedUser}`,
+          text: `Welcome ${loggedUser} 🫂`,
           style: { color: "#fff" }
         }}
         placement="center"
       />
       <Overlay isVisible={contactModalVisible} onBackdropPress={() => setContactModalVisible(false)}>
         <Input placeholder="enter the contact to add" onChangeText={setContactName} errorMessage={errorMessage} />
-        <Button title="Search" onPress={searchPressed} />
+        <Button title="Search 🔎" onPress={searchPressed} />
       </Overlay>
 
       <Pressable onPress={() => onContactPressed("Koichi")} style={{}}>
@@ -124,7 +122,7 @@ const HomePageScreen = () => {
         </Pressable>
       ))}
 
-      <Button title="Add Contact" onPress={() => setContactModalVisible(true)} />
+      <Button title="Add Contact ➕" onPress={() => setContactModalVisible(true)} />
     </View>
   );
 };
