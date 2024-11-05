@@ -20,20 +20,37 @@ const ChatScreen = () => {
 
     // Play the audio message
     const playSound = async (text) => {
-      console.log(text);
+      console.log("Converting text to speech:", text);
       try {
+        const response = await fetch(`${ngrokServer}/text-to-speech`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: text }),
+        });
+    
+        // Check if the request was successful
+        const data = await response.json();
+        if (!response.ok) {
+          console.error('Failed to convert text to speech:', data.error);
+          return;
+        }
+    
+        // Unload previous sound if it exists
         if (sound) {
           await sound.unloadAsync();
         }
-        const { sound: newSound } = await Audio.Sound.createAsync(
-          require('./sample-output.mp3')         
-        );
+    
+        // Load and play the new sound
+        const { sound: newSound } = await Audio.Sound.createAsync({ uri: "tts.mp3" });
         setSound(newSound);
         await newSound.playAsync();
       } catch (error) {
         console.error('Error playing sound:', error);
       }
     };
+
 
     //used to get the profile picture of the user
     useEffect(() => {
