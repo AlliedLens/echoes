@@ -55,4 +55,4 @@ npx expo start --tunnel # if u want to use it on ur phone with expo
 
 ![login](./assets/loginScreen.jpeg)
 ![login](./assets/newAccount.jpeg)
-![login](./assets/chatScreen.jpeg)
+![login](./assets/chatScreen.png)
