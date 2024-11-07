@@ -20,7 +20,7 @@ cd echoes # move into the directory
 ```
 **Install dependencies for python**
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 **Install dependencies for javascript(includes react native and stuff)**
 ```bash
